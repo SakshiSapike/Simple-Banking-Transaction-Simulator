@@ -12,13 +12,16 @@ public class BankController {
     private final BankService bankService = new BankService();
 
     // 1️⃣ CREATE ACCOUNT
+
     @PostMapping("/accounts")
     public Account createAccount(
             @RequestParam String name,
             @RequestParam AccountType type,
-            @RequestParam double balance
+            @RequestParam double balance,
+            @RequestParam String email,
+            @RequestParam String mobile
     ) {
-        return bankService.createAccount(name, type, balance);
+        return bankService.createAccount(name, type, balance, email, mobile);
     }
 
     // 2️⃣ TRANSFER MONEY

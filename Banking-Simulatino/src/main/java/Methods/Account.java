@@ -10,6 +10,8 @@ public class Account {
     private String accountId;
     private String name;
     private double balance;
+    private String email;
+    private String mobile;
     private AccountType type;
     private boolean isActive = true;
     private boolean isFrozen = false;
@@ -25,12 +27,32 @@ public class Account {
         }
     }
 
-    public Account(String name, AccountType type, double balance) {
-        if (balance < 0) throw new ArithmeticException("Negative balance");
+    public Account(String name, AccountType type, double balance,
+                   String email, String mobile) {
+
+        if (balance < 0)
+            throw new ArithmeticException("Negative balance");
+
+        if (!email.contains("@"))
+            throw new IllegalArgumentException("Invalid email");
+
+        if (!mobile.matches("\\d{10}"))
+            throw new IllegalArgumentException("Invalid mobile number");
+
         this.accountId = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         this.name = name;
         this.type = type;
         this.balance = balance;
+        this.email = email;
+        this.mobile = mobile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getMobile() {
+        return mobile;
     }
 
     // deposit
@@ -83,13 +105,17 @@ public class Account {
     public double getBalance() { return balance; }
     public String getName() { return name; }
 
+
     @Override
     public String toString() {
         return "ID=" + accountId +
                 ", Name=" + name +
                 ", Type=" + type +
                 ", Balance=" + balance +
+                ", Email=" + email +
+                ", Mobile=" + mobile +
                 ", Active=" + isActive +
                 ", Frozen=" + isFrozen;
     }
+
 }

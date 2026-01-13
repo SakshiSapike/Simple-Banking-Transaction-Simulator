@@ -18,7 +18,7 @@ public class BalanceAlertTracker implements BalanceObserver {
 
         if (account.getBalance() < MIN_BALANCE) {
 
-            // 🔔 Console alert (already working)
+            //  Console alert (already working)
             String message =
                     "ALERT: Account balance is below minimum limit. " +
                             "Current Balance: " + account.getBalance();

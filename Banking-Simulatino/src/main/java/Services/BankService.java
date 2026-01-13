@@ -170,7 +170,7 @@ public class BankService {
                 case 1:
                     System.out.print("Name: ");
                     String name = sc.nextLine();
-                    System.out.print("Account Type: ");
+                    System.out.print("Account Type (Type : SAVINGS or CURRENT): ");
                     AccountType type = AccountType.valueOf(
                             sc.nextLine().trim().toUpperCase()
                     );

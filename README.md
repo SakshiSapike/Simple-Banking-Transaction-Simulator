@@ -1,4 +1,3 @@
-<img width="780" height="601" alt="image" src="https://github.com/user-attachments/assets/480ae069-df5b-4a9f-9cd4-69becc7e00d8" /># Simple-Banking-Transaction-Simulator
 The Simple Banking Transaction Simulator is a Java-based application that simulates basic banking operations such as account creation, fund transfers, and balance management. It enforces banking rules like insufficient balance checks and daily transaction limits while maintaining transaction and alert logs using file handling.
 
 # 🏦 Banking Transaction Simulator (Java)
@@ -26,8 +25,6 @@ The project is implemented using **Core Java** and is extendable to **Spring Boo
 - **Collections Framework**
 
 )
-
-
 
 ---
 

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import Observers.BalanceAlertTracker;
 
 import Methods.Account;
-import Methods.AccountType;
+import Methods.AccountType;   // ✅ THIS LINE IS REQUIRED
 
 import java.util.*;
 
@@ -35,25 +35,24 @@ public class BankService {
                                 "\n"
                 );
             }
-            //  DEBUG: shows exact file location
+            // ✅ DEBUG: shows exact file location
             System.out.println("Log written to: " + file.getAbsolutePath());
 
         } catch (IOException e) {
-            System.out.println(" Transaction log write failed");
+            System.out.println("❌ Transaction log write failed");
             e.printStackTrace(); // optional but helpful
         }
     }
 
 
-    public Account createAccount(String name, AccountType type, double bal,
-                                 String email, String mobile) {
+    public Account createAccount(String name, AccountType type, double bal) {
 
-        Account acc = new Account(name, type, bal, email, mobile);
+        Account acc = new Account(name, type, bal);
         acc.addObserver(new BalanceAlertTracker());
+
         accounts.put(acc.getId(), acc);
         return acc;
     }
-
 
 
     public Account getAccount(String id) {
@@ -71,7 +70,7 @@ public class BankService {
         Account from = accounts.get(fromId);
         Account to = accounts.get(toId);
 
-
+        // ❌ Account missing
         if (from == null || to == null) {
             Transaction tx = new Transaction(
                     fromId,
@@ -82,7 +81,7 @@ public class BankService {
             );
 
             transactions.add(tx);
-            writeTransactionToFile(tx);   //  FILE LOG
+            writeTransactionToFile(tx);   // ✅ FILE LOG
 
             System.out.println("Transfer Failed: Account not found");
             return;
@@ -95,12 +94,12 @@ public class BankService {
             if (!BankSystem.checkLimit(dailyMap, fromId, amount))
                 throw new IllegalStateException("Daily limit exceeded");
 
-            //  BUSINESS LOGIC
+            // ✅ BUSINESS LOGIC
             from.transfer(to, amount);
             from.markSuccess();
             BankSystem.updateLimit(dailyMap, fromId, amount);
 
-            // SUCCESS TRANSACTIONS
+            // ✅ SUCCESS TRANSACTIONS
             Transaction txOut = new Transaction(
                     fromId,
                     TransactionType.TRANSFER_OUT,
@@ -120,8 +119,8 @@ public class BankService {
             transactions.add(txOut);
             transactions.add(txIn);
 
-            writeTransactionToFile(txOut);   //  REQUIRED
-            writeTransactionToFile(txIn);    //  REQUIRED
+            writeTransactionToFile(txOut);   // ✅ REQUIRED
+            writeTransactionToFile(txIn);    // ✅ REQUIRED
 
             System.out.println("\nTransfer Successful!");
             System.out.println("Remaining Balance: " + from.getBalance());
@@ -130,7 +129,7 @@ public class BankService {
 
             from.markFailure();
 
-
+            // ❌ FAILED TRANSACTION
             Transaction txFail = new Transaction(
                     fromId,
                     TransactionType.TRANSFER_OUT,
@@ -140,7 +139,7 @@ public class BankService {
             );
 
             transactions.add(txFail);
-            writeTransactionToFile(txFail);   //  FILE LOG
+            writeTransactionToFile(txFail);   // ✅ FILE LOG
 
             System.out.println("Transfer Failed: " + e.getMessage());
         }
@@ -171,31 +170,20 @@ public class BankService {
                 case 1:
                     System.out.print("Name: ");
                     String name = sc.nextLine();
-
-                    System.out.print("Account Type (SAVINGS or CURRENT): ");
+                    System.out.print("Account Type: ");
                     AccountType type = AccountType.valueOf(
                             sc.nextLine().trim().toUpperCase()
                     );
 
-                    System.out.print("Initial Balance: ");
+                    System.out.print("Balance: ");
                     double bal = Double.parseDouble(sc.nextLine());
-
-                    System.out.print("Email: ");
-                    String email = sc.nextLine();
-
-                    System.out.print("Mobile (10 digits): ");
-                    String mobile = sc.nextLine();
-
-                    Account acc = bank.createAccount(name, type, bal, email, mobile);
-                    System.out.println(" Account Created Successfully!");
-                    System.out.println(acc);
+                    System.out.println(bank.createAccount(name, type, bal));
                     break;
 
-
                 case 2:
-                    System.out.print("From (Account ID): ");
+                    System.out.print("From: ");
                     String f = sc.nextLine();
-                    System.out.print("To (Account ID): ");
+                    System.out.print("To: ");
                     String t = sc.nextLine();
                     System.out.print("Amount: ");
                     double amt = Double.parseDouble(sc.nextLine());

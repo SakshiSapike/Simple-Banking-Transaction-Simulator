@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class BalanceAlertTracker implements BalanceObserver {
 
-    private static final double MIN_BALANCE = 100;
+    private static final double MIN_BALANCE = 500;
     private static final String LOG_FILE =
             System.getProperty("user.dir") + "/data/transactions.log";
 

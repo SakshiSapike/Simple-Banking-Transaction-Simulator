@@ -35,7 +35,7 @@ public class BankService {
                                 "\n"
                 );
             }
-            // ✅ DEBUG: shows exact file location
+            // DEBUG: shows exact file location
             System.out.println("Log written to: " + file.getAbsolutePath());
 
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class BankService {
             );
 
             transactions.add(tx);
-            writeTransactionToFile(tx);   // ✅ FILE LOG
+            writeTransactionToFile(tx);   //  FILE LOG
 
             System.out.println("Transfer Failed: Account not found");
             return;
@@ -101,12 +101,12 @@ public class BankService {
             if (!BankSystem.checkLimit(dailyMap, fromId, amount))
                 throw new IllegalStateException("Daily limit exceeded");
 
-            // ✅ BUSINESS LOGIC
+            //  BUSINESS LOGIC
             from.transfer(to, amount);
             from.markSuccess();
             BankSystem.updateLimit(dailyMap, fromId, amount);
 
-            // ✅ SUCCESS TRANSACTIONS
+            //  SUCCESS TRANSACTIONS
             Transaction txOut = new Transaction(
                     fromId,
                     TransactionType.TRANSFER_OUT,
@@ -126,8 +126,8 @@ public class BankService {
             transactions.add(txOut);
             transactions.add(txIn);
 
-            writeTransactionToFile(txOut);   // ✅ REQUIRED
-            writeTransactionToFile(txIn);    // ✅ REQUIRED
+            writeTransactionToFile(txOut);   //  REQUIRED
+            writeTransactionToFile(txIn);    // REQUIRED
 
             System.out.println("\nTransfer Successful!");
             System.out.println("Remaining Balance: " + from.getBalance());
@@ -136,7 +136,7 @@ public class BankService {
 
             from.markFailure();
 
-            // ❌ FAILED TRANSACTION
+            //  FAILED TRANSACTION
             Transaction txFail = new Transaction(
                     fromId,
                     TransactionType.TRANSFER_OUT,
@@ -146,7 +146,7 @@ public class BankService {
             );
 
             transactions.add(txFail);
-            writeTransactionToFile(txFail);   // ✅ FILE LOG
+            writeTransactionToFile(txFail);   // FILE LOG
 
             System.out.println("Transfer Failed: " + e.getMessage());
         }

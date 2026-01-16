@@ -59,7 +59,7 @@ public class BankController {
             @RequestParam double amount
     ) {
         bankService.transfer(fromId, toId, amount);
-        return "💸 Transfer request processed";
+        return " Transfer request processed";
     }
 
     // 7 GET TRANSACTION HISTORY (console-based but exposed)

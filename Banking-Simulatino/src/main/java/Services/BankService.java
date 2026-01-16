@@ -193,7 +193,7 @@ public class BankService {
                     String mobile = sc.nextLine();
 
                     Account acc = bank.createAccount(name, type, bal, email, mobile);
-                    System.out.println("✅ Account Created Successfully!");
+                    System.out.println("Account Created Successfully!");
                     System.out.println(acc);
                     break;
 
